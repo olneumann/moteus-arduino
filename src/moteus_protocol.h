@@ -1663,6 +1663,5 @@ namespace mjbots
                 return 0;
             }
         };
-
     }
 }
