@@ -78,8 +78,15 @@ public:
 
     Options options_;
 
-    Moteus()
+    Moteus(const Options &options = {}) : options_(options)
     {
+        mm::CanData can_data;
+        mm::WriteCanData query_write(&can_data);
+        mm::Query::Make(&query_write, options_.query_format);
+
+        query_size_ = can_data.size;
+        query_data_ = reinterpret_cast<char *>(realloc(query_data_, query_size_));
+        ::memcpy(query_data_, &can_data.data[0], query_size_);
     }
 
     void Initialize()
